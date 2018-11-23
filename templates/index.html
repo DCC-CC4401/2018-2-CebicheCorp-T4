@@ -1,8 +1,7 @@
-{%  include "header.html" %}
+{% load static %}
+{% include "header.html" %}
         <!-- Cuerpo -->
-        <div class="container"> <!-- Contenedor responsivo, se adapta a la pantalla con puntos de quiebre. -->
-
-            <h4 class="font-weight-light my-3">Inicio</h4>
+        <div class="container mt-4"> <!-- Contenedor responsivo, se adapta a la pantalla con puntos de quiebre. -->
 
             <!-- Formulario para agregar una coevaluación. -->
             <!-- Permanece oculto hasta apretar el botón correspondiente. -->
@@ -110,9 +109,9 @@
                                 <tr>
                                     <!-- Fecha de inicio -->
                                     <td class="td-fecha">
-                                        {{ coeval.fecha_inicio|date:"H:M d/m/Y" }}
+                                        {{ coeval.fecha_inicio|date:"H:i d/m/y" }}
                                         <!-- Ícono de lápiz -->
-                                        <a href="#" title="Editar fecha de inicio"><img class="clickable-icon" src="icon/edit-icon.png" alt="editar fecha" width="15" height="15"></a>
+                                        <a href="#" title="Editar fecha de inicio"><img class="clickable-icon" src="{% static 'icon/edit-icon.png' %}" alt="editar fecha" width="13" height="13"></a>
                                     </td>
                                     <!-- Título de coevaluación -->
                                     <td>{{ coeval.titulo }}</td>
@@ -129,9 +128,9 @@
                                     <td>{{ coeval.curso.anno }}-{{ coeval.curso.semestre }}</td>
                                     <!-- Fecha de término -->
                                     <td class="td-fecha">
-                                        {{ coeval.fecha_termino }}
+                                        {{ coeval.fecha_termino|date:"H:i d/m/y" }}
                                         <!-- Ícono de lápiz -->
-                                        <a href="#" title="Editar fecha límite"><img class="clickable-icon" src="icon/edit-icon.png" alt="editar fecha" width="15" height="15"></a>
+                                        <a href="#" title="Editar fecha límite"><img class="clickable-icon" src="{% static 'icon/edit-icon.png' %}" alt="editar fecha" width="13" height="13"></a>
                                     </td>
                                     <!-- Estado -->
                                     <td>{{ coeval.estado }}</td>
@@ -167,63 +166,23 @@
                             </thead>
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
+                                {% for integrante in integrante_de %}
                                 <tr>
                                     <!-- Curso, con ícono de rol, nombre y código -->
                                     <td class="td-curso-full">
-                                        <div class="cargos cargos-profesor tooltip-custom">
+                                        <div class="cargos {{ integrante.rol.css_class }} tooltip-custom">
                                             <span class="tooltiptext"></span>
                                         </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
+                                        <span class="curso-nombre">{{ integrante.curso.nombre }}</span>
                                         <br>
-                                        <span class="curso-codigo">CC4401-1</span>
+                                        <span class="curso-codigo">{{ integrante.curso.codigo }}-{{ integrante.curso.seccion }}</span>
                                     </td>
                                     <!-- Semestre -->
-                                    <td>2025-1</td>
+                                    <td>{{ integrante.curso.anno }}-{{ integrante.curso.semestre }}</td>
                                 </tr>
-                                <tr>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-auxiliar tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
-                                        <br>
-                                        <span class="curso-codigo">CC4401-1</span>
-                                    </td>
-                                    <td>2018-2</td>
-                                </tr>
-                                <tr>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Proyecto de Software</span>
-                                        <br>
-                                        <span class="curso-codigo">CC5402-1</span>
-                                    </td>
-                                    <td>2018-1</td>
-                                </tr>
-                                <tr>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software II</span>
-                                        <br>
-                                        <span class="curso-codigo">CC5401-1</span>
-                                    </td>
-                                    <td>2017-2</td>
-                                </tr>
-                                <tr>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
-                                        <br>
-                                        <span class="curso-codigo">CC4401-1</span>
-                                    </td>
-                                    <td>2017-1</td>
-                                </tr>
+                                {% empty %}
+                                    <tr><td colspan="2" class="text-center">No tienes cursos registrados</td></tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
