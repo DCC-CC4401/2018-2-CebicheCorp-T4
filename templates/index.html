@@ -105,35 +105,37 @@
 
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
-                                {% for coeval in ultimas_coeval %}
+                                {% for coeval_integrante in ultimas_coeval_integrante %}
                                 <tr>
                                     <!-- Fecha de inicio -->
                                     <td class="td-fecha">
-                                        {{ coeval.fecha_inicio|date:"H:i d/m/y" }}
+                                        {{ coeval_integrante.coeval.fecha_inicio|date:"H:i d/m/y" }}
                                         <!-- Ícono de lápiz -->
                                         <a href="#" title="Editar fecha de inicio"><img class="clickable-icon" src="{% static 'icon/edit-icon.png' %}" alt="editar fecha" width="13" height="13"></a>
                                     </td>
                                     <!-- Título de coevaluación -->
-                                    <td>{{ coeval.titulo }}</td>
+                                    <td>{{ coeval_integrante.coeval.titulo }}</td>
                                     <!-- Curso, con ícono de rol, nombre y código -->
                                     <td class="td-curso-full">
-                                        <div class="cargos cargos-profesor tooltip-custom">
+                                        {% with cargo=coeval_integrante.integrante.rol.css_class %}
+                                        <div class="cargos {{ cargo }} tooltip-custom">
                                             <span class="tooltiptext"></span>
                                         </div>
-                                        <span class="curso-nombre">{{ coeval.curso.nombre }}</span>
+                                        {% endwith %}
+                                        <span class="curso-nombre">{{ coeval_integrante.coeval.curso.nombre }}</span>
                                         <br>
-                                        <span class="curso-codigo">{{ coeval.curso.codigo }}</span>
+                                        <span class="curso-codigo">{{ coeval_integrante.coeval.curso.codigo }}-{{ coeval_integrante.coeval.curso.seccion }}</span>
                                     </td>
                                     <!-- Semestre -->
-                                    <td>{{ coeval.curso.anno }}-{{ coeval.curso.semestre }}</td>
+                                    <td>{{ coeval_integrante.coeval.curso.anno }}-{{ coeval_integrante.coeval.curso.semestre }}</td>
                                     <!-- Fecha de término -->
                                     <td class="td-fecha">
-                                        {{ coeval.fecha_termino|date:"H:i d/m/y" }}
+                                        {{ coeval_integrante.coeval.fecha_termino|date:"H:i d/m/y" }}
                                         <!-- Ícono de lápiz -->
                                         <a href="#" title="Editar fecha límite"><img class="clickable-icon" src="{% static 'icon/edit-icon.png' %}" alt="editar fecha" width="13" height="13"></a>
                                     </td>
                                     <!-- Estado -->
-                                    <td>{{ coeval.estado }}</td>
+                                    <td>{{ coeval_integrante.coeval.estado }}</td>
                                     <!-- Ícono de acción (vacío) -->
                                     <td></td>
                                 </tr>
