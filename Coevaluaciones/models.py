@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 
 class Persona(models.Model):
     rut = models.CharField(max_length=13)
     nombre = models.CharField(max_length=100)
+    usuario = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='persona')
 
     def __str__(self):
         return self.nombre

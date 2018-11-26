@@ -1,13 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Coeval, Curso, Integrante, Persona
 from django.utils import timezone
 
 def index(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    user = request.user
+
     #Todas las relaciones Integrante de una persona
-    integrante_de = Integrante.objects.filter(persona__rut='12345678-9').order_by('-curso__anno', '-curso__semestre')
+    integrante_de = Integrante.objects.filter(persona__rut=user.persona.rut).order_by('-curso__anno', '-curso__semestre')
 
     #Todos los cursos de una persona
-    mis_cursos = Curso.objects.filter(integrantes__rut='12345678-9')
+    mis_cursos = Curso.objects.filter(integrantes__rut=user.persona.rut)
 
     #Crear lista de coevaluaciones de todos los cursos obtenidos, con su respectiva relación de Integrante
     ultimas_coeval = Coeval.objects.filter(curso__in=mis_cursos).order_by('-fecha_inicio')[:10]
