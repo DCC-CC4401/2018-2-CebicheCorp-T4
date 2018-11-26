@@ -24,6 +24,7 @@ class Curso(models.Model):
 
     class Meta:
         ordering = ['-anno', '-semestre']
+        unique_together = ['codigo', 'seccion', 'anno', 'semestre']
 
 
 class Rol(models.Model):
@@ -33,6 +34,7 @@ class Rol(models.Model):
     def __str__(self):
         return self.rol
 
+
 class Integrante(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE)
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
@@ -41,6 +43,13 @@ class Integrante(models.Model):
     def __str__(self):
         ret = str(self.persona) + " / " + str(self.curso)
         return ret
+
+
+class Grupo(models.Model):
+    nombre = models.CharField(max_length=100)
+    integrantes = models.ManyToManyField(Persona)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+
 
 class Pregunta(models.Model):
     texto = models.CharField(max_length=500)

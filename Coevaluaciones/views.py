@@ -2,9 +2,6 @@ from django.shortcuts import render
 from .models import Coeval, Curso, Integrante, Persona
 from django.utils import timezone
 
-def login(request):
-    return render(request, 'login.html', {})
-
 def index(request):
     #Todas las relaciones Integrante de una persona
     integrante_de = Integrante.objects.filter(persona__rut='12345678-9').order_by('-curso__anno', '-curso__semestre')

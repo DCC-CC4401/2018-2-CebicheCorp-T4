@@ -20,6 +20,7 @@ from django.contrib.staticfiles import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Coevaluaciones.urls')),
+    path('user/', include('django.contrib.auth.urls'))
 ]
 
 urlpatterns += [
