@@ -6,7 +6,6 @@ from django.utils import timezone
 def index(request):
     if not request.user.is_authenticated:
         return redirect('login')
-
     user = request.user
 
     # Todas las relaciones Integrante de una persona
@@ -33,7 +32,6 @@ def index(request):
 def ficha_curso(request, anno, semestre, codigo, seccion):
     if not request.user.is_authenticated:
         return redirect('login')
-
     user = request.user
 
     curso = Curso.objects.get(anno=anno, semestre=semestre, codigo=codigo, seccion=seccion)
@@ -51,3 +49,14 @@ def ficha_curso(request, anno, semestre, codigo, seccion):
     context = {'curso': curso, 'coevals': coevals, 'integrante': integrante, 'semestre_str': semestre_str, 'docente': docente}
 
     return render(request, 'ficha_curso.html', context)
+
+def ficha_usuario(request, rut):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    user = request.user
+
+    mis_cursos = Curso.objects.filter(integrantes=user.persona)
+    integrante_de = Integrante.objects.filter(persona=user.persona).order_by('-curso__anno',
+                                                                             '-curso__semestre')
+    context = {'usuario': user, 'mis_cursos': mis_cursos, 'integrante_de': integrante_de}
+    return render(request, 'ficha_usuario.html', context)
