@@ -1,0 +1,78 @@
+{% load static %}
+{% include "header.html" %}
+<!-- Cuerpo -->
+<div class="container"> <!-- Contenedor responsivo de Bootstrap, se adapta a la pantalla usando columnas. -->
+
+    <h3 class="d-inline-block page-title">Ficha de Curso</h3>
+    <h5 class="mb-3">
+        {% with cargo=integrante.rol.css_class %}
+            <div class="cargos {{ cargo }}"></div>
+        {% endwith %}
+        {{ curso.codigo }}-{{ curso.seccion }} {{ curso.nombre }} {{ curso.anno }}, {{ semestre_str }}
+    </h5>
+    <hr/>
+    <!-- Tablas de resumen -->
+    <div class="row">
+        <!-- Tabla de coevaluaciones -->
+        <div class="col-md-10 offset-1">
+            <h4 class="d-inline-block mt-1">Tus coevaluaciones del curso</h4>
+
+            <div class="table-wrap table-responsive my-1"> <!-- "Envoltura" de la tabla -->
+                <table class="table table-coeval-curso table-striped table-hover mb-0"> <!-- Tabla -->
+                    <!-- Encabezados de tabla (Table Headers) -->
+                    <thead class="thead-light">
+                    <tr> <!-- Fila (Table Row) -->
+                        <th class="th-fecha">Fecha inicio</th>
+                        <th class="th-titulo">Nombre</th>
+                        <th class="th-fecha">Fecha límite</th>
+                        <th class="th-estado">Estado</th>
+                        <th class="th-iconos"></th>
+                    </tr>
+                    </thead>
+
+                    <!-- Cuerpo de tabla (Table Data) -->
+                    <tbody>
+                    {% for coeval in coevals %}
+                        <tr>
+                            <!-- Fecha de inicio -->
+                            <td class="td-fecha">
+                                {{ coeval.fecha_inicio|date:"H:i d/m/y" }}
+                                <!-- Ícono de lápiz -->
+                                {% if docente %}
+                                <a href="#" title="Editar fecha de inicio"><img class="clickable-icon"
+                                                                                src="{% static 'icon/edit-icon.png' %}"
+                                                                                alt="editar fecha" width="13"
+                                                                                height="13"></a>
+                                {% endif %}
+                            </td>
+                            <!-- Título de coevaluación -->
+                            <td>{{ coeval.titulo }}</td>
+                            <!-- Fecha de término -->
+                            <td class="td-fecha">
+                                {{ coeval_integrante.coeval.fecha_termino|date:"H:i d/m/y" }}
+                                <!-- Ícono de lápiz -->
+                                {% if docente %}
+                                <a href="#" title="Editar fecha límite"><img class="clickable-icon"
+                                                                             src="{% static 'icon/edit-icon.png' %}"
+                                                                             alt="editar fecha" width="13" height="13"></a>
+                                {% endif %}
+                            </td>
+                            <!-- Estado -->
+                            <td>{{ coeval.estado }}</td>
+                            <!-- Ícono de acción (vacío) -->
+                            <td></td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">No tienes coevaluaciones registradas para este curso</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% include "footer.html" %}
