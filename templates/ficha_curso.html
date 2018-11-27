@@ -46,7 +46,7 @@
                                 {% endif %}
                             </td>
                             <!-- Título de coevaluación -->
-                            <td>{{ coeval.titulo }}</td>
+                            <td><a href="{% url 'ficha_coeval' coeval.id %}">{{ coeval.titulo }}</a></td>
                             <!-- Fecha de término -->
                             <td class="td-fecha">
                                 {{ coeval_integrante.coeval.fecha_termino|date:"H:i d/m/y" }}
