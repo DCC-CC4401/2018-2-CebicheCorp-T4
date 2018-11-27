@@ -116,7 +116,7 @@
                                         {% endif %}
                                     </td>
                                     <!-- Título de coevaluación -->
-                                    <td>{{ coeval_integrante.coeval.titulo }}</td>
+                                    <td><a href="{% url 'ficha_coeval' coeval_integrante.coeval.id %}">{{ coeval_integrante.coeval.titulo }}</a></td>
                                     <!-- Curso, con ícono de rol, nombre y código -->
                                     <td class="td-curso-full">
                                         {% with cargo=coeval_integrante.integrante.rol.css_class %}

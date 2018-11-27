@@ -46,9 +46,11 @@ def ficha_curso(request, anno, semestre, codigo, seccion):
 
     docente = 1 if (integrante.rol_id in [2, 3, 4]) else 0
 
-    context = {'curso': curso, 'coevals': coevals, 'integrante': integrante, 'semestre_str': semestre_str, 'docente': docente}
+    context = {'curso': curso, 'coevals': coevals, 'integrante': integrante, 'semestre_str': semestre_str,
+               'docente': docente}
 
     return render(request, 'ficha_curso.html', context)
+
 
 def ficha_usuario(request, rut):
     if not request.user.is_authenticated:
@@ -60,3 +62,15 @@ def ficha_usuario(request, rut):
                                                                              '-curso__semestre')
     context = {'usuario': user, 'mis_cursos': mis_cursos, 'integrante_de': integrante_de}
     return render(request, 'ficha_usuario.html', context)
+
+
+def ficha_coeval(request, id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    user = request.user
+
+    coeval = Coeval.objects.get(id=id)
+
+    context = {'coeval': coeval}
+
+    return render(request, 'ficha_coeval.html', context)
